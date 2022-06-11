@@ -1,26 +1,25 @@
+// @ts-ignore
+import { useStoryblok, StoryblokComponent } from "@storyblok/react";
 import React from 'react';
+
 import logo from './logo.svg';
 import './App.css';
 
+
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+  let slug =
+  window.location.pathname === "/"
+    ? "home"
+    : window.location.pathname.replace("/", "");
+
+
+const story = useStoryblok(slug, { version: "draft" });
+if (!story || !story.content) {
+  return <div>Loading...</div>;
+}
+
+return <StoryblokComponent blok={story.content} />;
+
 }
 
 export default App;
